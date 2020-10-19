@@ -10,17 +10,15 @@ session_start();
 	if(!empty($_POST))
 	{
 		$alert='';
-//		if(empty($_POST['folio'])|| empty($_POST['predio']) || empty($_POST['numero1']) || empty($_POST['numero2'])|| empty($_POST['orden'])|| empty($_POST['costo']))
-			if(empty($_POST['folio'])|| empty($_POST['numero1']) || empty($_POST['numero2'])|| empty($_POST['orden'])|| empty($_POST['costo']))
+		if(empty($_POST['folio'])|| empty($_POST['clave']) || empty($_POST['numero1']) || empty($_POST['numero2'])|| empty($_POST['orden'])|| empty($_POST['costo']))
 		{
 			$alert='<p class="msg_error">Todos los campos son obligatorios</p>';
 		} else{
-
 			$folio= $_POST['folio'];
 			$clave= $_POST['clave'];
-			$clave2=substr($clave, -2);
-			print_r($clave2);
-//			$predio= $_POST['predio'];	
+			$ultima_palabra = strrpos($clave, ' ') + 1; // +1 para no incluir el espacio en el resultado
+			$clave2 = substr($clave, $ultima_palabra); // 
+//			print_r($clave2);
 			$numero1= $_POST['numero1'];
 			$numero2= $_POST['numero2'];
 			$orden= $_POST['orden'];
@@ -40,7 +38,7 @@ session_start();
 				
 				$query_insert= mysqli_query($conection,"insert into 
 				numero_oficial (folio, id_predio, numero1, numero2, orden_p, fecha1, fecha2, fecha3, costo, estatus, usuario_id)
-				values ('$folio', '7', '$numero1', '$numero2', '$orden', '$fecha1', '$fecha2', '$fecha3', '$costo', '$estatus', '4')");
+				values ('$folio', '$clave2', '$numero1', '$numero2', '$orden', '$fecha1', '$fecha2', '$fecha3', '$costo', '$estatus', '4')");
 				if($query_insert){
 					$alert='<p class="msg_save">No. Oficial registrado correctamente</p>';
 				}else{
@@ -119,19 +117,6 @@ session_start();
 		<?php include "includes/footer.php"; ?>
 </body>
 </html>
-<!--
-<script>
-$(function() {
-    $("#clave").autocomplete({
-        source: "buscar.php",
-        select: function( event, ui ) {
-            event.preventDefault();
-            $("#clave").val(ui.item.id);
-        }
-    });
-});
-</script>
--->
 
 <script>
  $(document).ready(function(){
@@ -147,11 +132,6 @@ $(function() {
                         $('#claveList').fadeIn();  
                         $('#claveList').html(data);  
                      } 
-                     /*select: function( event, ui ) {
-        			  event.preventDefault();
-            			$("#clave").val(ui.item.id_predio);
-        			}*/
-
                 });  
            }
       });  
