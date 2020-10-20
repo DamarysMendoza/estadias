@@ -106,9 +106,8 @@ session_start();
 							
 						
 					?>
-                    
-                    	<li><p><a href=""><i class="fas fa-step-backward"></i></a></p></li>
-                        <li><p><a href=""><i class="fas fa-backward"></i></a></p></li>
+                       	<li><p><a href="?pagina=<?php echo 1; ?>"><i class="fas fa-step-backward"></i></a></p></li>
+                        <li><p><a href="?pagina=<?php echo $pagina-1; ?>"><i class="fas fa-backward"></i></a></p></li>
 						<?php
 						}
 						 for ($i=1; $i<=$total_paginas; $i++){
@@ -122,8 +121,9 @@ session_start();
 							  if($pagina!=$total_paginas){
 						 ?>
 
-                        <li><p><a href=""><i class="fas fa-forward"></i></a></p></li>
-                        <li><p><a href=""><i class="fas fa-step-forward"></i></a></p></li>
+                        <li><p><a href="?pagina=<?php echo $pagina+1; ?>"><i class="fas fa-forward"></i></a></p></li>
+                        <li><p><a href="?pagina=<?php echo $total_paginas;?>"><i class="fas fa-step-forward"></i></a></p></li>
+                       
                         <?php } ?>
                     </ul>
                 </div>
