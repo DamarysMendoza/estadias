@@ -4,16 +4,16 @@ session_start();
 	include "conexion.php";
 	if(!empty($_POST))
 	{
-		if($_POST['id']==1){
+		if($_POST['idnumero']==1){
 			header("location: lista_numero.php");
 			mysqli_close($conection);
 			exit;
 		}	
 
-		$idNumero=$_POST['id'];
+		$idnumero=$_POST['idnumero'];
 		//$query_delete=mysqli_query($conection,"delete from usuarios where id_usuario=$idusuario");
 		
-		$query_delete=mysqli_query($conection,"DELETE FROM numero_oficial where id_numero=$idNumero");
+		$query_delete=mysqli_query($conection,"DELETE FROM numero_oficial where id_numero=$idnumero");
 			mysqli_close($conection);
 		if($query_delete)
 		{
@@ -23,13 +23,13 @@ session_start();
 		}
 	}	
 
+	//Consulta para traer datos a mostrar ventana previa
 	if(empty($_REQUEST['id']))
 	{
 		header("location: lista_numero.php");
 		mysqli_close($conection);
 	}else{
-
-		$idNumero=$_REQUEST['id'];
+		$idnumero=$_REQUEST['id'];
 		$query= mysqli_query($conection,"select n.id_numero, n.id_predio, n.folio, p.propietario from numero_oficial n inner join predios p on n.id_predio= p.id_predio");
 		mysqli_close($conection);
 		$result= mysqli_num_rows($query);
@@ -63,11 +63,12 @@ session_start();
 			<div class="articulo">
             	<div class="data_delete">
                     <h2>¿Está seguro de eliminar el siguiente número?</h2>
+                    <p>Id:<span><?php echo $idnumero; ?></span></p>
                     <p>Folio:<span><?php echo $folio; ?></span></p>
                     <p>Predio:<span><?php echo $idPredio; ?></span></p>
                     <p>Propietario:<span><?php echo $propietario; ?></span></p>
                 	<form method="post" action="">
-                    	<input type="hidden" name="idnumero" value="<?php echo $idNumero; ?>">
+                    	<input type="hidden" name="idnumero" value="<?php echo $idnumero; ?>">
                     	<a href="lista_numero.php" class="btn_cancel">Cancelar</a>
                         <input type="submit" value="Aceptar" class="btn_ok">
                     </form>
